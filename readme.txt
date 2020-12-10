@@ -9,17 +9,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
-Widget Music Chart allows you to show charts from billboard.com or officialcharts.com
-
-Supported charts:
-- billboard hot 100
-- billboard 200
-- billboard artist 100
-- uk single top 100
-- uk album top 100
-- keep adding...
-
-If you want any chart, just tell me.
+Widget Music Chart allows you to show charts music
 
 == Override support ==
 
