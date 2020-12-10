@@ -26,7 +26,8 @@ Demo: [Link](https://user-images.githubusercontent.com/20571336/75089293-dfb0ae0
 
 
 == Installation ==
-- Download it from wordpress.org
+- Download it github
+- Put lastfm link to input, then hit fetch thumb, then save 
 
 == Screenshots ==
 
