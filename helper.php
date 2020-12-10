@@ -11,6 +11,9 @@ class MusicChartCustomHelper
 
         $wpdb = ff_get_db();
         $chart = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}ff_charts WHERE id = " . (int) $settings['chart_id']);
+        if (!$chart) {
+            return array();
+        }
 
         switch ($chart->type) {
             case 'album':

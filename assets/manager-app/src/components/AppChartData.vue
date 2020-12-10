@@ -270,7 +270,7 @@ export default {
                 artwork: item.artwork,
                 last: '0',
                 peak: '0',
-                total: '0',
+                total: '1',
                 chart_id: this.chart.id,
             });
         },
