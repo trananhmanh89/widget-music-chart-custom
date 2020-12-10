@@ -99,6 +99,102 @@ class WidgetMusicChartCustom_Widget extends WP_Widget
 	}
 }
 
+add_action('admin_init', function() {
+	$wpdb = ff_get_db();
+	$chart = $wpdb->get_var("SHOW TABLES LIKE '{$wpdb->prefix}ff_charts';");
+	if (!$chart) {
+		$wpdb->query("CREATE TABLE `wp_ff_charts` (
+			`id` INT(11) NOT NULL AUTO_INCREMENT,
+			`title` VARCHAR(200) NOT NULL COLLATE 'utf8mb4_unicode_ci',
+			`type` VARCHAR(20) NOT NULL COLLATE 'utf8mb4_unicode_ci',
+			PRIMARY KEY (`id`),
+			INDEX `type` (`type`)
+		)
+		COLLATE='utf8mb4_unicode_ci'
+		ENGINE=InnoDB
+		;");
+	}
+
+	$artist = $wpdb->get_var("SHOW TABLES LIKE '{$wpdb->prefix}ff_artists';");
+	if (!$artist) {
+		$wpdb->query("CREATE TABLE `{$wpdb->prefix}ff_artists` (
+			`id` INT(11) NOT NULL AUTO_INCREMENT,
+			`title` VARCHAR(255) NOT NULL,
+			`artwork` VARCHAR(255) NOT NULL,
+			`link` VARCHAR(200) NOT NULL,
+			PRIMARY KEY (`id`),
+			UNIQUE INDEX `link` (`link`)
+		)
+		COLLATE='utf8_general_ci'
+		ENGINE=InnoDB
+		;
+		");
+	}
+
+	$albums = $wpdb->get_var("SHOW TABLES LIKE '{$wpdb->prefix}ff_albums';");
+	if (!$albums) {
+		$wpdb->query("CREATE TABLE `{$wpdb->prefix}ff_albums` (
+			`id` INT(11) NOT NULL AUTO_INCREMENT,
+			`artist` INT(11) NOT NULL,
+			`title` VARCHAR(255) NOT NULL,
+			`artwork` VARCHAR(255) NOT NULL,
+			`lastfm` VARCHAR(200) NOT NULL,
+			`youtube` VARCHAR(255) NOT NULL,
+			`spotify` VARCHAR(255) NOT NULL,
+			`amazon` VARCHAR(255) NOT NULL,
+			PRIMARY KEY (`id`),
+			UNIQUE INDEX `lastfm` (`lastfm`),
+			INDEX `artist` (`artist`)
+		)
+		COLLATE='utf8_general_ci'
+		ENGINE=InnoDB
+		;
+		");
+	}
+
+	$songs = $wpdb->get_var("SHOW TABLES LIKE '{$wpdb->prefix}ff_songs';");
+	if (!$songs) {
+		$wpdb->query("CREATE TABLE `{$wpdb->prefix}ff_songs` (
+			`id` INT(11) NOT NULL AUTO_INCREMENT,
+			`artist` INT(11) NOT NULL,
+			`title` VARCHAR(255) NOT NULL,
+			`artwork` VARCHAR(255) NOT NULL,
+			`lastfm` VARCHAR(200) NOT NULL,
+			`youtube` VARCHAR(200) NOT NULL,
+			`spotify` VARCHAR(200) NOT NULL,
+			`amazon` VARCHAR(200) NOT NULL,
+			PRIMARY KEY (`id`),
+			UNIQUE INDEX `lastfm` (`lastfm`),
+			INDEX `artist` (`artist`)
+		)
+		COLLATE='utf8_general_ci'
+		ENGINE=InnoDB
+		;
+		");
+	}
+
+	$data = $wpdb->get_var("SHOW TABLES LIKE '{$wpdb->prefix}ff_chart_data';");
+	if (!$data) {
+		$wpdb->query("CREATE TABLE `{$wpdb->prefix}ff_chart_data` (
+			`id` INT(11) NOT NULL AUTO_INCREMENT,
+			`chart_id` INT(11) NOT NULL,
+			`item_id` INT(11) NOT NULL,
+			`position` INT(4) NOT NULL,
+			`last` INT(4) NOT NULL,
+			`peak` INT(4) NOT NULL,
+			`total` INT(4) NOT NULL,
+			PRIMARY KEY (`id`),
+			UNIQUE INDEX `chart_id_item_id` (`chart_id`, `item_id`),
+			INDEX `chart_id` (`chart_id`),
+			INDEX `item_id` (`item_id`)
+		)
+		COLLATE='utf8_general_ci'
+		ENGINE=InnoDB
+		;
+		");
+	}
+});
+
 add_action('widgets_init', function () {
 	register_widget('WidgetMusicChartCustom_Widget');
 });
